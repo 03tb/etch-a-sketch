@@ -1,5 +1,6 @@
 const canvasContainer = document.querySelector('#canvas-container');
 
+//function to insert individual divs
 function insertCells(numDivs) {
     for (let i = 0; i < numDivs; i++) {
         const insertCells = document.createElement('div');
@@ -10,6 +11,10 @@ function insertCells(numDivs) {
 
 let inputValue;
 
+
+
+// computes gridsize when submit is pressed
+
 let userGridButton = document.querySelector("#submit");
 
 userGridButton.addEventListener("click", () => {
@@ -19,6 +24,8 @@ userGridButton.addEventListener("click", () => {
     cellCalculation();
     setStyle(cellCalc);
 })
+
+let userInput;
 
 function gridPressed() {
     let userInput = document.getElementById("number");
@@ -32,6 +39,7 @@ function gridPressed() {
     }
 }
 
+// calculates the number of grids needing to be inserted based on user input
 let numDivs2;
 
 function numDivs() {
@@ -41,6 +49,7 @@ function numDivs() {
     numDivs2 = numDivs;
  }
 
+ // dynamic calculation of div flex styling
 let cellCalc;
  
 function cellCalculation() {
@@ -58,6 +67,7 @@ function setStyle(cellCalc) {
     });
 }
 
+// default grid size for boot up
 function defaultGrid() {
     insertCells(256);
     const cells = document.querySelectorAll('.cells')
@@ -67,3 +77,43 @@ function defaultGrid() {
 }
 
 defaultGrid();
+
+// mouseover
+
+let currentColor = 'black';
+
+canvasContainer.addEventListener("mouseover", () => {
+    const hoverCells = document.querySelectorAll('.cells');
+    hoverCells.forEach(cells => {
+        cells.addEventListener('mouseover', () => {
+            if (currentColor === 'rainbow') {
+                cells.style.backgroundColor = getRandomColor();
+            } else {
+                cells.style.backgroundColor = `${currentColor}`;
+            }
+        })
+    })     
+})
+
+const blackButton = document.getElementById('btn-black');
+
+blackButton.addEventListener('click', () => {
+    currentColor = 'black';
+    return currentColor;
+})
+
+const whiteButton = document.getElementById('btn-white');
+
+whiteButton.addEventListener('click', () => {
+    currentColor = 'white';
+    return currentColor;
+})
+
+const rainbowButton = document.getElementById('btn-rainbow');
+rainbowButton.addEventListener('click', () => {
+    currentColor = 'rainbow';
+});
+
+function getRandomColor() {
+    return 'rgb(' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ',' + (Math.floor(Math.random() * 256)) + ')';
+}
